@@ -14,6 +14,8 @@ file_datetime = pd.to_datetime(df['fecha'])
 df['fecha_month'] = file_datetime.dt.month
 df['fecha_day'] = file_datetime.dt.day
 df['fecha_year'] = file_datetime.dt.year
+print(f'Largo del dataset {len(df)}')
+# sys.exit()
 
 for i in range(len(df)):
     df.loc[i, 'ts'] = datetime(df.loc[i,'fecha_year'], df.loc[i, 'fecha_month'], df.loc[i, 'fecha_day'], df.loc[i, 'Hora'], df.loc[i, 'Minutos']).timestamp()
@@ -86,7 +88,7 @@ else:
     obj["KWh_E"] = float(input('Enter KWh_I = '))
     obj["KVarh"] = float(input('Enter KWh_I = '))
 
-for i in range(0, 6):
+for i in range(len(df)):
     obj['kWh_T'] = df.loc[i, 'kWh_T']
     obj['kVArh_T'] = df.loc[i, 'kVArh_T']
     obj['ts'] = df.loc[i, 'ts']
@@ -96,5 +98,5 @@ for i in range(0, 6):
     client.publish(topic,json.dumps(arr, indent=1))
     time.sleep(sleep_time)
 
-time.sleep(10)
+# time.sleep(10)
 client.loop_stop()
